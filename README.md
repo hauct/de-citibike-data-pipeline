@@ -68,21 +68,23 @@ Following technologies are used in implementing this pipeline
 
 - Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install-sdk)
 
-- For Windows user, 
+- For Windows user, open your environment on Windows and add the location of your Google Cloud SDK bin in 'PATH' variables
+
+![Alt text](img/gcp-add-path.png)
 
 - Configure the environment variable point to your GCP key (https://cloud.google.com/docs/authentication/application-default-credentials#GAC) and authenticate it using following commands
 
-   ```bash
-     export GOOGLE_APPLICATION_CREDENTIALS=<path_to_your_credentials>.json
-     gcloud auth application-default login
-   ```
+```bash
+  export GOOGLE_APPLICATION_CREDENTIALS=<path_to_your_credentials>.json
+  gcloud auth application-default login
+```
 
-    In my case:
+In my case:
 
-   ```bash
-     export GOOGLE_APPLICATION_CREDENTIALS=/c/Users/LAP14062-local/.gc/hauct-de-citibike-pipeline-0e76bd9c4f04.json
-     gcloud auth application-default login
-   ```
+```bash
+  export GOOGLE_APPLICATION_CREDENTIALS=/c/Users/LAP14062-local/.gc/hauct-de-citibike-pipeline-0e76bd9c4f04.json
+  gcloud auth application-default login
+```
 
 4. Set up the infrastructure of the project using Terraform
 
@@ -98,26 +100,14 @@ Following technologies are used in implementing this pipeline
 |------------------------------------------|------------------------------------------|
 | ![Alt text](img/terraform-setting-3.png) | ![Alt text](img/terraform-setting-4.png) |
 
-- In your working directory, open the terminal (I use Git Bash), run this script to get authenticated with the gcloud CLI 
+
+- In your working directory, open another the terminal (I use Git Bash), run the script `where terraform` to check whether terraform is successfully installed on your device.
+
+- Change to `./terraform`. Here i created 2 files for setting terraform, [main](terraform/main.tf) and [variables](terraform/variables.tf)
+
+- After that, run the scrip below:
 
 ```bash
-$ export GOOGLE_APPLICATION_CREDENTIALS="<your-gcp-cred-json>"
-$ gcloud auth application-default login
-```
-
-
-
-
-and run the script `where terraform` to check whether terraform is successfully installed on your device. And then run the scrip below:
-
-```bash
-# Check terraform in your device
-$ where terraform
-# C:\Users\LAP14062-local\.terraform\terraform.exe
-
-# Change to terraform folder in your project
-$ cd terraform
-
 # Initialize state file (.tfstate)
 $ terraform init
 
@@ -128,17 +118,75 @@ $ terraform plan -var="project=<your-gcp-project-id>"
 $ terraform apply -var="project=<your-gcp-project-id>"
 ```
 
+    In my case:
 
+```bash
+# Initialize state file (.tfstate)
+$ terraform init
 
+# Check changes to new infra plan
+$ terraform plan -var="project=hauct-de-citibike-pipeline"
 
+# Create new infra
+$ terraform apply -var="project=hauct-de-citibike-pipeline"
+```
 
+Everything will be okay if you see this
 
+![Alt text](img/terraform-done.png)
 
+5. Run python code in Prefect folder
 
+- You have installed the required python packages in step 1, prefect should be installed with it. Confirm the prefect installation with following command
 
+```bash
+  prefect --version
+```
 
+- You can start the prefect server so that you can access the UI using the command below:
+```bash
+prefect server start
+```
 
+- Access the UI at: `http://127.0.0.1:4200/` to view the UI
 
+![Alt text](img/prefect-ui.png)
+
+- Change out the blocks so that they are registered to your credentials for GCS and Big Query. This can be done in the Blocks options. 
+
+  - Add block `GCP Credentials`, open your recently downloaded cred json (in my case: `hauct-de-citibike-pipeline-0e76bd9c4f04`) and copy to field `Service Account Info`
+
+  <table>
+  <tr><td>
+  <img src="img/prefect-block-gcp-cred1.png">
+  </td><td>
+  <img src="img/prefect-block-gcp-cred2.png">
+  </td></tr>
+  </table>
+
+  - Add block `GCS Bucket`, remember add-in your `GCP Credentials` block
+
+  <table>
+  <tr><td>
+  <img src="img/prefect-block-gcs-buck1.png">
+  </td><td>
+  <img src="img/prefect-block-gcs-buck2.png">
+  </td></tr>
+  </table>
+
+- Go back to the terminal and run:
+    ```bash
+     cd prefect/
+    ```
+
+- then run
+    ```bash
+     python citibike_data_pipeline.py
+    ```
+
+- The python script will then store the citibike data both in your GCS bucket and in Big Query
+
+6. Running the dbt flow
 
 
 
