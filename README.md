@@ -186,7 +186,13 @@ prefect server start
 
 - The python script will then store the citibike data both in your GCS bucket and in Big Query
 
+![Alt text](img/gcs-bucket.png)
+
 6. Running the dbt flow
+
+- Create a dbt account and log in using dbt cloud [here](https://cloud.getdbt.com/)
+- Once logged in clone the repo for use 
+
 
 
 
