@@ -190,15 +190,30 @@ prefect server start
 
 6. Running the dbt flow
 
-- Create a dbt account and log in using dbt cloud [here](https://cloud.getdbt.com/)
-- Once logged in clone the repo for use 
+- Create a dbt account and log in using dbt cloud [here](https://cloud.getdbt.com/).
 
+- Once logged in clone the repo for use.
 
+- in the cli at the bottom run the following command:
+   ```bash
+    dbt run
+    ```
 
+- this will run all the models and create the final dataset called "fact_citibike"
 
+  <table>
+  <tr><td>
+  <img src="img/dbt-success.png">
+  </td><td>
+  <img src="img/gcp-fact-table.png">
+  </td></tr>
+  </table>
 
+7. Visualization
 
+- The fact_citibike dataset is now available for you to integrate into Looker for graphical displays.
 
+- The report is accessible at this [link](https://lookerstudio.google.com/s/lUSsqr0LbT4)
 
 
 
