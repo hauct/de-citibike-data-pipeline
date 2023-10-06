@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: staging
+    database: hauct-de-citibike-pipeline
+    schema: nyc_citibike_data
+    
+    tables:
+      - name: citibike_tripsdata_raw
