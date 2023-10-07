@@ -213,6 +213,6 @@ prefect server start
 
 - The fact_citibike dataset is now available for you to integrate into Looker for graphical displays.
 
-- The report is accessible at this [link]([https://lookerstudio.google.com/s/lUSsqr0LbT4](https://lookerstudio.google.com/reporting/843c48e3-85e1-4880-ac1b-77be4c9b0bfd))
+- The report is accessible at this [link](https://lookerstudio.google.com/reporting/843c48e3-85e1-4880-ac1b-77be4c9b0bfd)
 
 
